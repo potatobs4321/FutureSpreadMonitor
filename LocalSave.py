@@ -1,5 +1,7 @@
 from enum import Enum
 import os
+
+import Constants
 from Constants import LOCAL_SAVE_FILE_NAME, FILE_ENCODING
 from Debouncer import Debouncer
 
@@ -22,8 +24,9 @@ class LocalSave:
         if cls.__inited__:
             return
         cls.__inited__ = True
-        if os.path.exists(cls.__save_file_name__):
-            with open(cls.__save_file_name__, 'r', encoding=FILE_ENCODING) as f:
+        _file_name = cls.get_file_abs_path()
+        if os.path.exists(_file_name):
+            with open(_file_name, 'r', encoding=FILE_ENCODING) as f:
                 for line in f:
                     key, value = cls.parse_line_to_key_value(line)
                     if key is not None:
@@ -39,7 +42,8 @@ class LocalSave:
             value = cls.__data_dict__[key]
             write_line += cls.pack_key_value_to_line_str(key, value)
             write_line += '\n'
-        with open(cls.__save_file_name__, 'w', encoding=FILE_ENCODING) as f:
+        _file_name = cls.get_file_abs_path()
+        with open(_file_name, 'w', encoding=FILE_ENCODING) as f:
             f.write(write_line)
 
     @classmethod
@@ -75,7 +79,13 @@ class LocalSave:
         cls.__data_dict__[field.value] = value
         cls.__debouncer__.trigger()
 
-LocalSave.__debouncer__ = Debouncer(LocalSave.save_data_to_file, 1000)
+    @classmethod
+    def get_file_abs_path(cls):
+        cur_dir = os.path.dirname(__file__)
+        return cur_dir + "\\" + Constants.LOCAL_SAVE_FILE_NAME
+
+
+LocalSave.__debouncer__ = Debouncer(LocalSave.save_data_to_file, 500)
 
 def main():
     LocalSave.set_value_by_save_field(SaveField.SaveField_Future_Symbol, "HK.HSImain")
