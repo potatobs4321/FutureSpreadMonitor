@@ -2,7 +2,6 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 
 from GlobalEvents import GlobalEvents, ID_GlobalEvent_App_Exit
-from WidgetWindows.StrategyTabs.FollowOrder import FollowOrderLeader
 from WidgetWindows.StrategyTabs.FutureSpreadWidget import FutureSpreadWidget
 from PyQt5.QtWidgets import *
 
