@@ -1,8 +1,9 @@
-from PyQt5.QtCore import pyqtSignal, QTimer
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QTabWidget, QVBoxLayout
 
 from GlobalEvents import GlobalEvents, ID_GlobalEvent_App_Exit
-from WidgetWindows.FutureSpreadWidget import FutureSpreadWidget
+from WidgetWindows.StrategyTabs.FollowOrder import FollowOrderLeader
+from WidgetWindows.StrategyTabs.FutureSpreadWidget import FutureSpreadWidget
 from PyQt5.QtWidgets import *
 
 class StrategyLabs(QWidget):
@@ -16,8 +17,8 @@ class StrategyLabs(QWidget):
         self._future_spread = FutureSpreadWidget()
         self._empty = QWidget()
 
-        self._tab_widget.addTab(self._empty, "空白")
         self._tab_widget.addTab(self._future_spread, "期货价差")
+        self._tab_widget.addTab(self._empty, "空白")
 
         _layout.addWidget(self._tab_widget)
         self.setMinimumSize(800, 600)
